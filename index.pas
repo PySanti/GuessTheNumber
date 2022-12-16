@@ -62,12 +62,23 @@ begin
     drawCharPatas()
 end;
 
-procedure drawGrass();
+procedure drawGrass(currentGrassPixel : integer; currentXpos : integer);
 begin
-    write(',')
+    if ((currentXpos-1 = currentGrassPixel) OR (currentXpos-2 = currentGrassPixel)) then
+        begin
+            write('\');
+        end
+    else if ((currentXpos+2 = currentGrassPixel) OR (currentXpos+3 = currentGrassPixel)) then
+        begin
+            write('/');
+        end
+    else
+        begin
+            write('|');
+        end;
 end;
 
-procedure drawMap();
+procedure drawMap(currentXpos : integer);
 var
     i : integer;
 begin
@@ -76,7 +87,7 @@ begin
     while (i < maxX) do
         begin
             gotoxy(initialX+i,initialY);
-            drawGrass();
+            drawGrass(i, currentXpos);
             i := i + 1;
         end;
     textColor(15);
@@ -107,7 +118,7 @@ begin
     while True do
         begin
             clrscr();
-            drawMap();
+            drawMap(currentXpos);
             drawCharacter(currentXpos);
             gotoxy(1,1);
             letter := readKey();
